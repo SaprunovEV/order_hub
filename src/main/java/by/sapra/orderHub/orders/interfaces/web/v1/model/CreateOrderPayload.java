@@ -20,7 +20,7 @@ public record CreateOrderPayload(
 ) {
     public CreateOrderCommand toCommand() {
         var productMap = products.stream()
-                .collect(Collectors.toMap(Function.identity(), e -> 1, Integer::sum));
+                .collect(Collectors.toMap(Function.identity(), _ -> 1, Integer::sum));
 
         OrderItems items = castToItems(productMap);
 
