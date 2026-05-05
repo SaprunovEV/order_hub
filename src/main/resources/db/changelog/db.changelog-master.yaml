@@ -1,0 +1,16 @@
+databaseChangeLog:
+  - property:
+      name: now
+      value: now()
+      dbms: postgresql
+  - include:
+      file: classpath:db/changelog/changes/05_05_2026_initial_schema.yml
+  - include:
+      file: classpath:db/changelog/changes/05_05_2026_initial_order_tabel_schema.yml
+  - include:
+      file: classpath:db/changelog/changes/05_05_2026_initial_order_items_tabel_schema.yml
+  - include:
+      file: classpath:db/changelog/changes/05_05_2026_add_foreghKey_for_order_items.yml
+  - include:
+      file: classpath:db/changelog/changes/05_05_2026_add_check_order_status_enum.yml
+

@@ -1,20 +1,30 @@
 spring:
   application:
     name: order_hub
+  profiles:
+    active: local
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/order_hub
-    username: postgres
-    password: postgres
+    url: jdbc:postgresql://${DATABASE_HOST:localhost}:${POSTGRES_PORT:5432}/${DATABASE_NAME:order_hub}
+    username: ${DATABASE_USER:postgres}
+    password: ${DATABASE_PASSWORD:postgres}
+    hikari:
+      schema: order_service
+      connection-init-sql: CREATE SCHEMA IF NOT EXISTS order_service
+      connection-timeout: 10000
 
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
     show-sql: true
 
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+    enabled: true
+
 server:
-  port: 8081
+  port: ${SERVER_PORT:8081}
 
 logging:
   level:
-    org.hibernate.org: DEBUG
+    org.hibernate.org: ${LOGGING_LEVEL:DEBUG}

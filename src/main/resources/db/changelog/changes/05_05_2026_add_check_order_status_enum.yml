@@ -1,0 +1,6 @@
+databaseChangeLog:
+  - changeSet:
+      id: add_check_order_status_enum
+      author: "Евгений Сапрунов"
+      changes:
+        - sql: ALTER TABLE order_service.orders ADD CONSTRAINT chk_orders_status CHECK (status IN ('CREATED','PROCESSED','CLOSED', 'SHIPPED', 'PAID', 'DELIVERED'))
