@@ -9,12 +9,12 @@ import java.util.Objects;
 
 public record ProductResource(
         @NotNull
-        @Positive
+        @Positive(message = "Id продукта должен быть больше нуля")
         Long productId,
-        @NotEmpty
+        @NotEmpty(message = "Название продукта не должен быть пустым")
         String productName,
         @NotNull
-        @Positive
+        @Positive(message = "Цена должна быть больше нуля")
         BigDecimal price
 ) {
         @Override
