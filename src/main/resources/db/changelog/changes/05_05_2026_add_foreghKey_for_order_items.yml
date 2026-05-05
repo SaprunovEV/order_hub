@@ -1,0 +1,14 @@
+databaseChangeLog:
+  - changeSet:
+      id: add_foreign_key_order_items_order
+      author: "Евгений Сапрунов"
+      changes:
+        - addForeignKeyConstraint:
+            baseTableSchemaName: order_service
+            baseTableName: order_items
+            baseColumnNames: order_id
+            referencedTableSchemaName: order_service
+            referencedTableName: orders
+            referencedColumnNames: id
+            constraintName: fk_order_items_order
+            onDelete: CASCADE

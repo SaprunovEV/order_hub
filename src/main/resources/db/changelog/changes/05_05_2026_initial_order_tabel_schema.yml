@@ -1,0 +1,32 @@
+databaseChangeLog:
+  - changeSet:
+      id: create_order_tabel
+      author: "Евгений Сапрунов"
+      changes:
+        - createTable:
+            schemaName: order_service
+            tableName: orders
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                 name: order_number
+                 type: VARCHAR(255)
+                 constraints:
+                   unique: true
+                   nullable: false
+              - column:
+                  name: create_at
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: status
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: false
