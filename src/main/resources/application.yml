@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: order_hub
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/order_hub
+    username: postgres
+    password: postgres
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+server:
+  port: 8081
+
+logging:
+  level:
+    org.hibernate.org: DEBUG
