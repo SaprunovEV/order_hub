@@ -1,6 +1,8 @@
 spring:
   application:
     name: order_hub
+  profiles:
+    active: local
 
   datasource:
     url: jdbc:postgresql://${DATABASE_HOST:localhost}:${POSTGRES_PORT:5432}/${DATABASE_NAME:order_hub}
