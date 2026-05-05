@@ -3,9 +3,9 @@ spring:
     name: order_hub
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/order_hub
-    username: postgres
-    password: postgres
+    url: jdbc:postgresql://${DATABASE_HOST:localhost}:${POSTGRES_PORT:5432}/${DATABASE_NAME:order_hub}
+    username: ${DATABASE_USER:postgres}
+    password: ${DATABASE_PASSWORD:postgres}
 
   jpa:
     hibernate:
