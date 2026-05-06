@@ -22,6 +22,32 @@ spring:
     change-log: classpath:db/changelog/db.changelog-master.yaml
     enabled: true
 
+management:
+  info:
+    env:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include:
+          - health
+          - info
+          - metrics
+          - prometheus
+          - loggers
+
+  endpoint:
+    health:
+      show-details: always
+      probes:
+        enabled: true
+
+info:
+  app:
+    name: "Супер-пупер приложуха"
+    version: "0.0.1"
+    description: "Ну просто очень супер-пупер приложение богов!!"
+
 server:
   port: ${SERVER_PORT:8081}
 
