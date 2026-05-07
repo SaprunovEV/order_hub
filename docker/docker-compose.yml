@@ -20,6 +20,59 @@ services:
       - "postgres"
       - "-c"
       - "max_connections=100"
+      - "-c"
+      - "shared_buffers=256MB"
+    networks:
+      - orderhub-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  order_service:
+    build:
+      context: ../
+      dockerfile: Dockerfile
+      args:
+        APP_VERSION: ${APP_VERSION:-0.0.1}
+    container_name: order_service
+    ports:
+      - "${ORDER_SERVICE_PORT:-8081}:8081"
+    environment:
+      SERVER_PORT: 8081
+
+      DATABASE_USER: ${POSTGRES_USER}
+      DATABASE_PASSWORD: ${POSTGRES_PASSWORD}
+
+      DATABASE_HOST: database
+      DATABASE_PORT: ${POSTGRES_PORT}
+      DATABASE_NAME: ${POSTGRES_DB}
+      SPRING_JPA_HIBERNATE_DDL_AUTO: ${SPRING_JPA_HIBERNATE_DDL_AUTO:-validate}
+
+      LOG_LEVEL: INFO
+
+      MANAGEMENT_METRICS_EXPORT_PROMETHEUS_ENABLED: "true"  # Включаем экспорт в Prometheus
+      MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: health,info,prometheus,metrics,loggers
+    depends_on:
+      database:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      # Проверка, что Spring Boot жив и отвечает
+      test: [ "CMD", "curl", "-f", "http://localhost:8081/actuator/health" ]
+      interval: 30s      # Реже, чем у БД (Spring Boot тяжелее стартует)
+      timeout: 10s
+      retries: 3
+      start_period: 40s  # Даём время на запуск (первые 40с не проверяем)
+    networks:
+      - orderhub-network
+
 
 volumes:
   postgres_data:
+
+networks:
+  orderhub-network:
+    name: orderhub-network
+    driver: bridge
