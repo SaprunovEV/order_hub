@@ -63,7 +63,7 @@ public class BusinessMetricsAspect {
 
         String timerKey = buildTimerKey(metricsName, className, metrics.tags(), status);
 
-        Timer timer = timerMap.computeIfAbsent(timerKey, key -> {
+        Timer timer = timerMap.computeIfAbsent(timerKey, _ -> {
             Tags timerTags = Tags.of("class", className, "status", status);
 
             timerTags = addCustomTags(timerTags, metrics.tags());
